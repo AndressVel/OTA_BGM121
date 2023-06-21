@@ -1,0 +1,43 @@
+# Silicon Labs Project Configuration Tools: slcp, v0, Component selection file.
+project_name: bootloader-storage-internal-ble
+label: bootloader-storage-internal-ble
+description: |
+  This sample configuration of the Gecko bootloader configures the bootloader to use the internal main flash to store firmware update images. The storage configuration is set up to store a single firmware update image at a time, in a single storage slot. The storage slot is configured to start at address 0x21800 (or 0x8021800 for device with 0x8000000 flash base), and have a size of 86 kB. This can be configured on the "Software Components->Platform->Bootloader->Storage->Bootloader Storage Slot Setup".
+category: Example|Bootloader
+filter:
+- name: Device Type
+  value: [SoC]
+- name: MCU
+  value: [Bootloader]
+- name: Project Difficulty
+  value: [Advanced]
+package: bootloader
+quality: production
+readme:
+- {path: readme.md}
+tag: ['hardware:device:flash:256']
+sdk: {id: gecko_sdk, version: 4.2.3}
+toolchain_settings: []
+component:
+- {id: bootloader_token_management}
+- {id: bootloader_crc}
+- {id: bootloader_aes_sha_ecdsa}
+- {id: bootloader_common_storage}
+- {id: bootloader_internal_storage}
+- {id: BGM121A256V2}
+- {id: bootloader_storage_slots}
+- {id: bootloader_debug}
+- {id: brd4302a_a04}
+- {id: bootloader_image_parser}
+- {id: bootloader_core}
+configuration:
+- {name: SLOT0_ENABLE, value: '1'}
+- {name: SLOT0_SIZE, value: '88064'}
+- condition: [device_series_1]
+  name: SLOT0_START
+  value: '137216'
+ui_hints:
+  highlight:
+  - {path: readme.md, focus: true}
+post_build: {path: bootloader-storage-internal-ble.slpb, profile: bootloader-storage-internal-ble}
+
